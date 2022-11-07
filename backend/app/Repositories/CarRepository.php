@@ -9,6 +9,9 @@ use App\Repositories\Contracts\CarRepositoryInterface;
 
 class CarRepository implements CarRepositoryInterface
 {
+    /**
+     * @var \App\Models\Car $entity
+     */
     protected $entity;
 
     public function __construct(Car $user)

@@ -9,11 +9,30 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
+    /**
+     * @var \App\Models\User $entity
+     */
     protected $entity;
 
     public function __construct(User $user)
     {
         $this->entity = $user;
+    }
+
+    /**
+     * @param $id
+     * @param array $relationship
+     * @return object|null
+     */
+    public function findById($id, array $relationship = []): ?object
+    {
+        $entity = $this->entity;
+
+        if (count($relationship) > 0) {
+            $entity = $entity->with($relationship);
+        }
+
+        return $entity->find($id);
     }
 
     /**
@@ -34,12 +53,46 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete($id): bool
     {
-        $user = $this->entity->find($id);
+        $user = $this->findById($id);
 
         if (! $user) {
             throw new \Exception("Usuário com ID {$id} não foi encontrado");
         }
 
         return $user->delete();
+    }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return null
+     * @throws \Exception
+     */
+    public function attach($id, array $data)
+    {
+        $user = $this->findById($id, ['cars']);
+
+        if (! $user) {
+            throw new \Exception("Usuário com ID {$id} não foi encontrado");
+        }
+
+        return $user->cars()->attach($data);
+    }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return bool
+     * @throws \Exception
+     */
+    public function detach($id, array $data): bool
+    {
+        $user = $this->findById($id, ['cars']);
+
+        if (! $user) {
+            throw new \Exception("Usuário com ID {$id} não foi encontrado");
+        }
+
+        return (bool) $user->cars()->detach($data);
     }
 }

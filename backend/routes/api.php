@@ -8,5 +8,8 @@ $router->group([
     $router->post('users', ['uses' => 'V1\UserController@store']);
     $router->delete('users/{id}', ['uses' => 'V1\UserController@destroy']);
 
+    $router->post('users/{id}/cars/attach', ['uses' => 'V1\UserCarController@attach']);
+    $router->post('users/{id}/cars/detach', ['uses' => 'V1\UserCarController@detach']);
+
     $router->post('cars', ['uses' => 'V1\CarController@store']);
 });

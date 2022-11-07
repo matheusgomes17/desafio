@@ -35,4 +35,26 @@ class UserService
     {
         return $this->userRepository->delete($id);
     }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return null
+     * @throws \Exception
+     */
+    public function attach($id, array $data)
+    {
+        return $this->userRepository->attach($id, $data);
+    }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return bool
+     * @throws \Exception
+     */
+    public function detach($id, array $data): bool
+    {
+        return $this->userRepository->detach($id, $data);
+    }
 }

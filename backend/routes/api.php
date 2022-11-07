@@ -7,6 +7,7 @@ $router->group([
 ], function ($router) {
     $router->get('users', ['uses' => 'V1\UserController@index']);
     $router->post('users', ['uses' => 'V1\UserController@store']);
+    $router->get('users/{id}', ['uses' => 'V1\UserController@show']);
     $router->delete('users/{id}', ['uses' => 'V1\UserController@destroy']);
 
     $router->post('users/{id}/cars/attach', ['uses' => 'V1\UserCarController@attach']);

@@ -29,6 +29,16 @@ class UserService
     }
 
     /**
+     * @param $id
+     * @param array $relationship
+     * @return object|null
+     */
+    public function findById($id, array $relationship = []): ?object
+    {
+        return $this->userRepository->findById($id, $relationship);
+    }
+
+    /**
      * @param array $data
      * @return object
      */

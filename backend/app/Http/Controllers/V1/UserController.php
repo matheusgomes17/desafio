@@ -46,6 +46,17 @@ class UserController extends Controller
 
     /**
      * @param $id
+     * @return \App\Http\Resources\V1\UserResource
+     */
+    public function show($id)
+    {
+        $user = $this->userService->findById($id);
+
+        return (new UserResource($user));
+    }
+
+    /**
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)

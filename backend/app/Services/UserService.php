@@ -49,6 +49,17 @@ class UserService
 
     /**
      * @param $id
+     * @param array $data
+     * @return object
+     * @throws \App\Exceptions\UserNotFound
+     */
+    public function updateProfile($id, array $data): object
+    {
+        return $this->userRepository->updateProfile($id, $data);
+    }
+
+    /**
+     * @param $id
      * @return bool
      */
     public function delete($id): bool

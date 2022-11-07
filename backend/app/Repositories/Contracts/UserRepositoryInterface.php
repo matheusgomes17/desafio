@@ -29,6 +29,14 @@ interface UserRepositoryInterface
 
     /**
      * @param $id
+     * @param array $data
+     * @return object
+     * @throws \App\Exceptions\UserNotFound
+     */
+    public function updateProfile($id, array $data): object;
+
+    /**
+     * @param $id
      * @return bool
      */
     public function delete($id): bool;

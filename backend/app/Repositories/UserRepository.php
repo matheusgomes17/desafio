@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Exceptions\UserNotFound;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -51,9 +52,34 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(array $data): object
     {
-        $data['password'] = app('hash')->make($data['password']);
+        $data['password'] = $this->generateHash($data['password']);
 
         return $this->entity->create($data);
+    }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return object
+     * @throws \App\Exceptions\UserNotFound
+     */
+    public function updateProfile($id, array $data): object
+    {
+        $user = $this->findById($id);
+
+        if (! $user) {
+            throw new UserNotFound();
+        }
+
+        $data['password'] = $this->generateHash($data['password']);
+
+        if (! $user->update($data)) {
+            throw new \Exception('Houve um erro ao atualizar o usuário');
+        }
+
+        $user = $this->findById($id);
+
+        return $user;
     }
 
     /**
@@ -66,7 +92,7 @@ class UserRepository implements UserRepositoryInterface
         $user = $this->findById($id);
 
         if (! $user) {
-            throw new \Exception("Usuário com ID {$id} não foi encontrado");
+            throw new UserNotFound();
         }
 
         return $user->delete();
@@ -83,7 +109,7 @@ class UserRepository implements UserRepositoryInterface
         $user = $this->findById($id, ['cars']);
 
         if (! $user) {
-            throw new \Exception("Usuário com ID {$id} não foi encontrado");
+            throw new UserNotFound();
         }
 
         return $user->cars()->attach($data);
@@ -100,9 +126,18 @@ class UserRepository implements UserRepositoryInterface
         $user = $this->findById($id, ['cars']);
 
         if (! $user) {
-            throw new \Exception("Usuário com ID {$id} não foi encontrado");
+            throw new UserNotFound();
         }
 
         return (bool) $user->cars()->detach($data);
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    private function generateHash($value): string
+    {
+        return app('hash')->make($value);
     }
 }

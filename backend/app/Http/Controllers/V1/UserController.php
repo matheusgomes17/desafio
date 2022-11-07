@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Users\ProfileRequest;
 use App\Http\Requests\V1\Users\StoreRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Services\UserService;
@@ -76,5 +77,25 @@ class UserController extends Controller
         }
 
         return response()->json([], 204);
+    }
+
+    /**
+     * @param $id
+     * @param \App\Http\Requests\V1\Users\ProfileRequest $request
+     * @return \App\Http\Resources\V1\UserResource|\Illuminate\Http\JsonResponse
+     */
+    public function updateProfile($id, ProfileRequest $request)
+    {
+        $data = $request->validated();
+
+        try {
+            $user = $this->userService->updateProfile($id, $data);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 422);
+        }
+
+        return (new UserResource($user));
     }
 }

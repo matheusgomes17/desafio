@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\V1\Users;
+namespace App\Http\Requests\V1\Cars;
 
 use Anik\Form\FormRequest;
 
@@ -27,8 +27,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:6',
         ];
     }
 }

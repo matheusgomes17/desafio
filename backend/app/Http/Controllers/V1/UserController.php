@@ -31,4 +31,27 @@ class UserController extends Controller
 
         return (new UserResource($user));
     }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            $deleted = $this->userService->delete($id);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 404);
+        }
+
+        if (! $deleted) {
+            return response()->json([
+                'message' => 'Erro ao deletar o usuário'
+            ], 422);
+        }
+
+        return response()->json([], 204);
+    }
 }

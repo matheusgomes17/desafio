@@ -24,4 +24,20 @@ class UserRepository implements UserRepositoryInterface
 
         return $this->entity->create($data);
     }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete($id): bool
+    {
+        $user = $this->entity->find($id);
+
+        if (! $user) {
+            throw new \Exception("Usuário com ID {$id} não foi encontrado");
+        }
+
+        return $user->delete();
+    }
 }

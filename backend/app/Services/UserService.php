@@ -24,4 +24,13 @@ class UserService
     {
         return $this->userRepository->create($data);
     }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id): bool
+    {
+        return $this->userRepository->delete($id);
+    }
 }

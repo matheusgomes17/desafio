@@ -9,4 +9,10 @@ interface UserRepositoryInterface
      * @return object
      */
     public function create(array $data): object;
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id): bool;
 }

@@ -22,6 +22,16 @@ class UserController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index()
+    {
+        $users = $this->userService->paginate();
+
+        return UserResource::collection($users);
+    }
+
+    /**
      * @param \App\Http\Requests\V1\Users\StoreRequest $request
      * @return \App\Http\Resources\V1\UserResource
      */

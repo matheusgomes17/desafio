@@ -46,6 +46,7 @@ class UserCarController extends Controller
      * @param $id
      * @param \App\Http\Requests\V1\Users\SyncCarRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function detach($id, SyncCarRequest $request)
     {

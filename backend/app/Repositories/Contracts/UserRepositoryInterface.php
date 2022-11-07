@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories\Contracts;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
 interface UserRepositoryInterface
 {
     /**
@@ -12,6 +14,12 @@ interface UserRepositoryInterface
      * @return object|null
      */
     public function findById($id, array $relationship = []): ?object;
+
+    /**
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator;
 
     /**
      * @param array $data

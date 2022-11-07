@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -33,6 +34,15 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return $entity->find($id);
+    }
+
+    /**
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->entity->with(['cars'])->paginate($perPage);
     }
 
     /**

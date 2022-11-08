@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import Router, { useRouter, withRouter } from 'next/router'
-import UserService from '../../services/users'
+import CarService from '../../services/cars'
 
-import styles from '../../../styles/Users.module.css'
+import styles from '../../../styles/Cars.module.css'
 import Head from '../../components/Head'
 import Header from '../../components/Header'
 import Swal from 'sweetalert2'
 
-const Users = (props) => {
+const Cars = (props) => {
     const router = useRouter()
 
     const [isLoading, setLoading] = useState(false)
@@ -25,10 +25,10 @@ const Users = (props) => {
         }
     }, [])
 
-    function deleteUser(id) {
+    function deleteCar(id) {
         Swal.fire({
             title: "Remover?",
-            text: "Deseja realmente remover esse usuário?",
+            text: "Deseja realmente remover esse carro?",
             type: "warning",
             showCancelButton: true,
             confirmButtonText: "Sim, remova!",
@@ -36,9 +36,9 @@ const Users = (props) => {
             reverseButtons: true
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const userDeleted = await UserService.delete(id)
+                const carDeleted = await CarService.delete(id)
 
-                if (userDeleted.status !== 204) {
+                if (carDeleted.status !== 204) {
                     Swal.fire(
                         'Erro!',
                         result.message,
@@ -47,10 +47,10 @@ const Users = (props) => {
                 } else {
                     Swal.fire(
                         'Excluído!',
-                        'Usuário removido com sucesso',
+                        'Carro removido com sucesso',
                         "success"
                     ).then(() => {
-                        router.push('/users')
+                        router.push('/cars')
                     })
                 }
             }
@@ -71,18 +71,17 @@ const Users = (props) => {
     let content = null;
 
     if (isLoading)
-        content = <tr><td colSpan="3">Carregando...</td></tr>;
+        content = <tr><td colSpan="2">Carregando...</td></tr>;
     else {
         content = (
             <>
-                {props.users.map(user => {
+                {props.cars.map(user => {
                     return (
                         <tr key={user.id}>
                             <td>{user.name}</td>
-                            <td>{user.email}</td>
                             <td>
-                                <a href={`/users/edit/${encodeURIComponent(user.id)}`} className={styles.btnEdit}>Editar</a>
-                                <button onClick={(e) => deleteUser(user.id)} className={styles.btnDelete}>Excluir</button>
+                                <a href={`/cars/edit/${encodeURIComponent(user.id)}`} className={styles.btnEdit}>Editar</a>
+                                <button onClick={(e) => deleteCar(user.id)} className={styles.btnDelete}>Excluir</button>
                             </td>
                         </tr>
                     )
@@ -93,7 +92,7 @@ const Users = (props) => {
 
     return (
         <div className={styles.container}>
-            <Head title="Usuários - Projeto NextJS"></Head>
+            <Head title="Carros - Projeto NextJS"></Head>
 
             <div className={styles.grid}>
                 <a href="/" className={styles.back}>
@@ -102,16 +101,15 @@ const Users = (props) => {
             </div>
 
             <main className={styles.main}>
-                <Header title="Lista de Usuários"></Header>
+                <Header title="Lista de Carros"></Header>
 
-                <a href='/users/create' className={styles.btnSuccess}>Criar Usuário</a>
+                <a href='/cars/create' className={styles.btnSuccess}>Criar Carro</a>
 
                 <div className={styles.grid}>
                     <table className={styles.table}>
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>E-mail</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -140,18 +138,18 @@ const Users = (props) => {
     );
 };
 
-Users.getInitialProps = async ({ query }) => {
+Cars.getInitialProps = async ({ query }) => {
     const page = query.page || 1;
-    const response = await UserService.paginate(page);
-    const users = response.data
+    const response = await CarService.paginate(page);
+    const cars = response.data
 
     return {
-        totalCount: users.meta.total,
-        pageCount: users.meta.from,
-        currentPage: users.meta.current_page,
-        perPage: users.meta.per_page,
-        users: users.data,
+        totalCount: cars.meta.total,
+        pageCount: cars.meta.from,
+        currentPage: cars.meta.current_page,
+        perPage: cars.meta.per_page,
+        cars: cars.data,
     };
 }
 
-export default withRouter(Users);
+export default withRouter(Cars);

@@ -47,4 +47,15 @@ class CarService
     {
         return $this->carRepository->create($data);
     }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return object
+     * @throws \Exception
+     */
+    public function update($id, array $data): object
+    {
+        return $this->carRepository->update($id, $data);
+    }
 }

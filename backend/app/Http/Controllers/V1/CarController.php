@@ -6,6 +6,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Cars\StoreRequest;
+use App\Http\Requests\V1\Cars\UpdateRequest;
 use App\Http\Resources\V1\CarResource;
 use App\Services\CarService;
 
@@ -55,6 +56,20 @@ class CarController extends Controller
                 'message' => 'O carro não foi encontrado'
             ], 404);
         }
+
+        return (new CarResource($car));
+    }
+
+    /**
+     * @param $id
+     * @param \App\Http\Requests\V1\Cars\UpdateRequest $request
+     * @return \App\Http\Resources\V1\CarResource
+     */
+    public function update($id, UpdateRequest $request)
+    {
+        $data = $request->validated();
+
+        $car = $this->carService->update($id, $data);
 
         return (new CarResource($car));
     }

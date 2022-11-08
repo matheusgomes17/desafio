@@ -17,4 +17,5 @@ $router->group([
     $router->get('cars', ['uses' => 'V1\CarController@index']);
     $router->post('cars', ['uses' => 'V1\CarController@store']);
     $router->get('cars/{id}', ['uses' => 'V1\CarController@show']);
+    $router->put('cars/{id}', ['uses' => 'V1\CarController@update']);
 });

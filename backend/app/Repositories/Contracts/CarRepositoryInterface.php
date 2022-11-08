@@ -27,4 +27,12 @@ interface CarRepositoryInterface
      * @return object
      */
     public function create(array $data): object;
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return object
+     * @throws \Exception
+     */
+    public function update($id, array $data): object;
 }

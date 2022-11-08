@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
-import Router, { withRouter } from 'next/router'
+import Router, { useRouter, withRouter } from 'next/router'
 import UserService from '../../services/users'
 
 import styles from '../../../styles/Users.module.css'
 import Head from '../../components/Head'
 import Header from '../../components/Header'
+import Swal from 'sweetalert2'
 
 const Users = (props) => {
+    const router = useRouter()
+
     const [isLoading, setLoading] = useState(false)
     const startLoading = () => setLoading(true)
     const stopLoading = () => setLoading(false)
@@ -21,6 +24,38 @@ const Users = (props) => {
             Router.events.off('routeChangeComplete', stopLoading);
         }
     }, [])
+
+    function deleteUser(id) {
+        Swal.fire({
+            title: "Remover?",
+            text: "Deseja realmente remover esse usuário?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, remova!",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const userDeleted = await UserService.delete(id)
+
+                if (userDeleted.status !== 204) {
+                    Swal.fire(
+                        'Erro!',
+                        result.message,
+                        "error"
+                    )
+                } else {
+                    Swal.fire(
+                        'Excluído!',
+                        'Usuário removido com sucesso',
+                        "success"
+                    ).then(() => {
+                        router.push('/users')
+                    })
+                }
+            }
+        })
+    }
 
     const pagginationHandler = (page) => {
         const currentPath = props.router.pathname;
@@ -45,7 +80,10 @@ const Users = (props) => {
                         <tr key={user.id}>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
-                            <td><a href={`/users/edit/${encodeURIComponent(user.id)}`} className={styles.btnEdit}>Editar</a></td>
+                            <td>
+                                <a href={`/users/edit/${encodeURIComponent(user.id)}`} className={styles.btnEdit}>Editar</a>
+                                <button onClick={(e) => deleteUser(user.id)} className={styles.btnDelete}>Excluir</button>
+                            </td>
                         </tr>
                     )
                 })}

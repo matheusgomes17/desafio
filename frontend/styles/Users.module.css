@@ -171,6 +171,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .btnInfo {
@@ -182,6 +183,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .btnSuccess {
@@ -193,6 +195,19 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    cursor: pointer;
+}
+
+.btnDelete {
+    background-color: #f3000091;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 5px;
     cursor: pointer;
 }
 

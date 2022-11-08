@@ -27,9 +27,16 @@ async function update(id, params) {
     return response;
 }
 
+async function destroy(id) {
+    const response = await axios.delete(`${baseUrl}/${id}`);
+
+    return response;
+}
+
 export default {
     findById,
     paginate,
     create,
-    update
+    update,
+    delete: destroy
 };

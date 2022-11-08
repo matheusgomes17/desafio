@@ -63,14 +63,43 @@ class CarController extends Controller
     /**
      * @param $id
      * @param \App\Http\Requests\V1\Cars\UpdateRequest $request
-     * @return \App\Http\Resources\V1\CarResource
+     * @return \App\Http\Resources\V1\CarResource|\Illuminate\Http\JsonResponse
      */
     public function update($id, UpdateRequest $request)
     {
         $data = $request->validated();
 
-        $car = $this->carService->update($id, $data);
+        try {
+            $car = $this->carService->update($id, $data);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 404);
+        }
 
         return (new CarResource($car));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            $deleted = $this->carService->delete($id);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 404);
+        }
+
+        if (! $deleted) {
+            return response()->json([
+                'message' => 'Erro ao deletar o carro'
+            ], 422);
+        }
+
+        return response()->json([], 204);
     }
 }

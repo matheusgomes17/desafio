@@ -48,4 +48,20 @@ class CarRepository extends BaseRepository implements CarRepositoryInterface
 
         return $car;
     }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete($id): bool
+    {
+        $car = $this->findById($id);
+
+        if (! $car) {
+            throw new \Exception("O carro com ID {$id} não foi encontrado");
+        }
+
+        return $car->delete();
+    }
 }

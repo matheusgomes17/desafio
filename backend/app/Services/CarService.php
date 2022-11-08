@@ -58,4 +58,14 @@ class CarService
     {
         return $this->carRepository->update($id, $data);
     }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete($id): bool
+    {
+        return $this->carRepository->delete($id);
+    }
 }

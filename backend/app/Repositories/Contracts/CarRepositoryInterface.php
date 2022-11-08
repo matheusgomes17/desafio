@@ -35,4 +35,11 @@ interface CarRepositoryInterface
      * @throws \Exception
      */
     public function update($id, array $data): object;
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete($id): bool;
 }

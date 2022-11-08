@@ -30,8 +30,8 @@ class Car extends Model
         return $this->belongsToMany(
             User::class,
             'user_cars',
-            'user_id',
             'car_id',
+            'user_id',
         );
     }
 }

@@ -20,8 +20,7 @@ class CreateUserCarsTable extends Migration
             $table->foreignIdFor(User::class, 'user_id')
                 ->constrained();
             $table->foreignIdFor(Car::class, 'car_id')
-                ->constrained()
-                ->onDelete('cascade');
+                ->constrained();
         });
     }
 

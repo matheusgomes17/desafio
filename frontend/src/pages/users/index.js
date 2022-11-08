@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import Router, { withRouter } from 'next/router'
-import { paginate } from '../../services/users'
+import UserService from '../../services/users'
 
-import Head from 'next/head'
 import styles from '../../../styles/Users.module.css'
+import Head from '../../components/Head'
+import Header from '../../components/Header'
 
 const Users = (props) => {
     const [isLoading, setLoading] = useState(false)
@@ -35,43 +36,37 @@ const Users = (props) => {
     let content = null;
 
     if (isLoading)
-        content = <tbody><tr><td colspan="3">Carregando...</td></tr></tbody>;
+        content = <tr><td colSpan="3">Carregando...</td></tr>;
     else {
         content = (
-            <tbody>
+            <>
                 {props.users.map(user => {
                     return (
-                        <>
-                            <tr>
-                                <td key={user.id}>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td></td>
-                            </tr>
-                        </>
+                        <tr key={user.id}>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td><a href={`/users/edit/${encodeURIComponent(user.id)}`} className={styles.btnEdit}>Editar</a></td>
+                        </tr>
                     )
                 })}
-            </tbody>
+            </>
         );
     }
 
     return (
         <div className={styles.container}>
-            <Head>
-                <title>Usuários - Projeto NextJS</title>
-                <meta name="description" content="Essa é uma aplicação criada para o desafio da vaga de emprego na empresa XXXX" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <Head title="Usuários - Projeto NextJS"></Head>
 
-            <header className={styles.grid}>
+            <div className={styles.grid}>
                 <a href="/" className={styles.back}>
                     <h2>&larr; Voltar</h2>
                 </a>
-            </header>
+            </div>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Lista de Usuários
-                </h1>
+                <Header title="Lista de Usuários"></Header>
+
+                <a href='users/create' className={styles.btnSuccess}>Criar Usuário</a>
 
                 <div className={styles.grid}>
                     <table className={styles.table}>
@@ -82,7 +77,9 @@ const Users = (props) => {
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        {content}
+                        <tbody>
+                            {content}
+                        </tbody>
                     </table>
 
                     <ReactPaginate
@@ -107,7 +104,7 @@ const Users = (props) => {
 
 Users.getInitialProps = async ({ query }) => {
     const page = query.page || 1;
-    const response = paginate(page);
+    const response = await UserService.paginate(page);
     const users = response.data
 
     return {

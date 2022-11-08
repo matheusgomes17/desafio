@@ -62,6 +62,26 @@ class UserController extends Controller
 
     /**
      * @param $id
+     * @param \App\Http\Requests\V1\Users\ProfileRequest $request
+     * @return \App\Http\Resources\V1\UserResource|\Illuminate\Http\JsonResponse
+     */
+    public function update($id, ProfileRequest $request)
+    {
+        $data = $request->validated();
+
+        try {
+            $user = $this->userService->updateProfile($id, $data);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 422);
+        }
+
+        return (new UserResource($user));
+    }
+
+    /**
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -81,25 +101,5 @@ class UserController extends Controller
         }
 
         return response()->json([], 204);
-    }
-
-    /**
-     * @param $id
-     * @param \App\Http\Requests\V1\Users\ProfileRequest $request
-     * @return \App\Http\Resources\V1\UserResource|\Illuminate\Http\JsonResponse
-     */
-    public function updateProfile($id, ProfileRequest $request)
-    {
-        $data = $request->validated();
-
-        try {
-            $user = $this->userService->updateProfile($id, $data);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'message' => $exception->getMessage()
-            ], 422);
-        }
-
-        return (new UserResource($user));
     }
 }

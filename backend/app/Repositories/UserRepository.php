@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     /**
      * @var \App\Models\User $entity
@@ -19,22 +19,6 @@ class UserRepository implements UserRepositoryInterface
     public function __construct(User $user)
     {
         $this->entity = $user;
-    }
-
-    /**
-     * @param $id
-     * @param array $relationship
-     * @return object|null
-     */
-    public function findById($id, array $relationship = []): ?object
-    {
-        $entity = $this->entity;
-
-        if (count($relationship) > 0) {
-            $entity = $entity->with($relationship);
-        }
-
-        return $entity->find($id);
     }
 
     /**

@@ -15,4 +15,5 @@ $router->group([
     $router->post('users/{id}/cars/detach', ['uses' => 'V1\UserCarController@detach']);
 
     $router->post('cars', ['uses' => 'V1\CarController@store']);
+    $router->get('cars/{id}', ['uses' => 'V1\CarController@show']);
 });

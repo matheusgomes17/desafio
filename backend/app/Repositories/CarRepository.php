@@ -7,7 +7,7 @@ namespace App\Repositories;
 use App\Models\Car;
 use App\Repositories\Contracts\CarRepositoryInterface;
 
-class CarRepository implements CarRepositoryInterface
+class CarRepository extends BaseRepository implements CarRepositoryInterface
 {
     /**
      * @var \App\Models\Car $entity

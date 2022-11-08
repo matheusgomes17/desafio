@@ -47,11 +47,15 @@ class UserController extends Controller
 
     /**
      * @param $id
-     * @return \App\Http\Resources\V1\UserResource
+     * @return \App\Http\Resources\V1\UserResource|\Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $user = $this->userService->findById($id);
+        if (! $user = $this->userService->findById($id)) {
+            return response()->json([
+                'message' => 'O usuário não foi encontrado'
+            ], 404);
+        }
 
         return (new UserResource($user));
     }

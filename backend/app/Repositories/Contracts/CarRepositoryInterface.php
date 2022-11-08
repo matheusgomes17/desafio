@@ -7,6 +7,13 @@ namespace App\Repositories\Contracts;
 interface CarRepositoryInterface
 {
     /**
+     * @param $id
+     * @param array $relationship
+     * @return object|null
+     */
+    public function findById($id, array $relationship = []): ?object;
+
+    /**
      * @param array $data
      * @return object
      */

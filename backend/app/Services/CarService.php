@@ -19,6 +19,16 @@ class CarService
     }
 
     /**
+     * @param $id
+     * @param array $relationship
+     * @return object|null
+     */
+    public function findById($id, array $relationship = []): ?object
+    {
+        return $this->carRepository->findById($id, $relationship);
+    }
+
+    /**
      * @param array $data
      * @return object
      */

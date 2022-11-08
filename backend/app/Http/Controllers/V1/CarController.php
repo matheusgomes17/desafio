@@ -33,4 +33,19 @@ class CarController extends Controller
 
         return (new CarResource($car));
     }
+
+    /**
+     * @param $id
+     * @return \App\Http\Resources\V1\CarResource|\Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        if (! $car = $this->carService->findById($id)) {
+            return response()->json([
+                'message' => 'O carro não foi encontrado'
+            ], 404);
+        }
+
+        return (new CarResource($car));
+    }
 }

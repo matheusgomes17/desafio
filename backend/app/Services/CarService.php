@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\Contracts\CarRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CarService
 {
@@ -26,6 +27,16 @@ class CarService
     public function findById($id, array $relationship = []): ?object
     {
         return $this->carRepository->findById($id, $relationship);
+    }
+
+    /**
+     * @param int $perPage
+     * @param array $relationships
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 15, array $relationships = []): LengthAwarePaginator
+    {
+        return $this->carRepository->paginate($perPage, $relationships);
     }
 
     /**

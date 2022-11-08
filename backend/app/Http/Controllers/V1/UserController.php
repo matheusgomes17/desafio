@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userService->paginate();
+        $users = $this->userService->paginate(20, ['cars']);
 
         return UserResource::collection($users);
     }

@@ -17,9 +17,10 @@ interface UserRepositoryInterface
 
     /**
      * @param int $perPage
+     * @param array $relationships
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15): LengthAwarePaginator;
+    public function paginate(int $perPage = 15, array $relationships = []): LengthAwarePaginator;
 
     /**
      * @param array $data

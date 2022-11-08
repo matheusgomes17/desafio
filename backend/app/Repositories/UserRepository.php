@@ -7,7 +7,6 @@ namespace App\Repositories;
 use App\Exceptions\UserNotFound;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -19,15 +18,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function __construct(User $user)
     {
         $this->entity = $user;
-    }
-
-    /**
-     * @param int $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function paginate(int $perPage = 15): LengthAwarePaginator
-    {
-        return $this->entity->with(['cars'])->paginate($perPage);
     }
 
     /**

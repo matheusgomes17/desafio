@@ -22,6 +22,16 @@ class CarController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index()
+    {
+        $cars = $this->carService->paginate(20);
+
+        return CarResource::collection($cars);
+    }
+
+    /**
      * @param \App\Http\Requests\V1\Cars\StoreRequest $request
      * @return \App\Http\Resources\V1\CarResource
      */

@@ -5,6 +5,7 @@ import CarService from '../../services/cars';
 import styles from '../../../styles/Cars.module.css'
 import Head from '../Head'
 import Header from '../Header'
+import Error from '../../utils/errors'
 
 export default function FormUpdate(props) {
     const router = useRouter()
@@ -22,9 +23,12 @@ export default function FormUpdate(props) {
     }
 
     const updateData = async (e) => {
-        const response = await CarService.update(props.dataCar.id, data);
-
-        router.push('/cars')
+        try {
+            const response = await CarService.update(props.dataCar.id, data);
+            router.push('/cars')
+        } catch (error) {
+            Error(error.response.data)
+        }
     }
 
     return (

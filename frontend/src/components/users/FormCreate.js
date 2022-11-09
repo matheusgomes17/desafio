@@ -5,6 +5,7 @@ import UserService from '../../services/users';
 import styles from '../../../styles/Users.module.css'
 import Head from '../Head'
 import Header from '../Header'
+import Error from '../../utils/errors'
 
 export default function FormCreate(props) {
     const router = useRouter()
@@ -24,9 +25,12 @@ export default function FormCreate(props) {
     }
 
     const storeData = async (e) => {
-        const response = await UserService.create(data);
-
-        router.push('/users')
+        try {
+            const response = await UserService.create(data);
+            router.push('/users')
+        } catch (error) {
+            Error(error.response.data)
+        }
     }
 
     return (

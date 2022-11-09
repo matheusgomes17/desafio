@@ -5,6 +5,7 @@ import UserService from '../../services/users';
 import styles from '../../../styles/Users.module.css'
 import Head from '../Head'
 import Header from '../Header'
+import Error from '../../utils/errors'
 
 export default function FormUpdate(props) {
     const router = useRouter()
@@ -23,9 +24,12 @@ export default function FormUpdate(props) {
     }
 
     const updateData = async (e) => {
-        const response = await UserService.update(props.dataUser.id, data);
-
-        router.push('/users')
+        try {
+            const response = await UserService.update(props.dataUser.id, data);
+            router.push('/users')
+        } catch (error) {
+            Error(error.response.data)
+        }
     }
 
     return (

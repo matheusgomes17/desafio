@@ -75,7 +75,7 @@ const Users = (props) => {
     else {
         content = (
             <>
-                {props.users.map(user => {
+                {props.users && props.users.map(user => {
                     return (
                         <tr key={user.id}>
                             <td>{user.name}</td>
@@ -83,6 +83,7 @@ const Users = (props) => {
                             <td>
                                 <a href={`/users/edit/${encodeURIComponent(user.id)}`} className={styles.btnEdit}>Editar</a>
                                 <button onClick={(e) => deleteUser(user.id)} className={styles.btnDelete}>Excluir</button>
+                                <a href={`/users/${encodeURIComponent(user.id)}/cars`} className={styles.btnCars}>Carros</a>
                             </td>
                         </tr>
                     )

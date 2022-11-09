@@ -34,7 +34,7 @@
 }
 
 .description {
-    margin: 4rem 0;
+    margin: 2rem 0;
     line-height: 1.5;
     font-size: 1.5rem;
 }
@@ -171,6 +171,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin: 0 3px;
     cursor: pointer;
 }
 
@@ -207,7 +208,20 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-left: 5px;
+    margin: 0 3px;
+    cursor: pointer;
+}
+
+.btnCars {
+    background-color: #5500f391;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 3px;
     cursor: pointer;
 }
 

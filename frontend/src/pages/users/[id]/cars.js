@@ -25,7 +25,7 @@ export default function UserCars(props) {
         }
     }, [])
 
-    async function addCars(id) {
+    async function addUserCars(id) {
         const response = await CarService.all()
         const carsData = response.data
         const cars = carsData.data
@@ -51,8 +51,40 @@ export default function UserCars(props) {
                     )
                 } else {
                     Swal.fire(
-                        'Excluído!',
+                        'Sucesso!',
                         carAttached.data.message,
+                        "success"
+                    ).then(() => {
+                        router.push(`/users/${id}/cars`)
+                    })
+                }
+            }
+        })
+    }
+    
+    function deleteUserCar(id, carId) {
+        Swal.fire({
+            title: "Remover Carro?",
+            text: "Deseja realmente remover o carro desse usuário?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, remova!",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const userCarDeleted = await UserService.detachCar(id, [carId])
+
+                if (userCarDeleted.status !== 200) {
+                    Swal.fire(
+                        'Erro!',
+                        userCarDeleted.data.message,
+                        "error"
+                    )
+                } else {
+                    Swal.fire(
+                        'Excluído!',
+                        userCarDeleted.data.message,
                         "success"
                     ).then(() => {
                         router.push(`/users/${id}/cars`)
@@ -73,7 +105,9 @@ export default function UserCars(props) {
                     return (
                         <tr key={car.id}>
                             <td>{car.name}</td>
-                            <td></td>
+                            <td>
+                                <button onClick={(e) => deleteUserCar(props.data.id, car.id)} className={styles.btnDelete}>Excluir</button>
+                            </td>
                         </tr>
                     )
                 })}
@@ -98,7 +132,7 @@ export default function UserCars(props) {
                     Gerencie a lista de carros do usuário <strong>{props.data.name}</strong>
                 </p>
 
-                <button onClick={(e) => addCars(props.data.id)} className={styles.btnSuccess}>Adicionar Carros</button>
+                <button onClick={(e) => addUserCars(props.data.id)} className={styles.btnSuccess}>Adicionar Carros</button>
 
                 <div className={styles.grid}>
                     <table className={styles.table}>

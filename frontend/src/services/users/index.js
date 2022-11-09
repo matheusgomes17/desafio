@@ -39,11 +39,18 @@ async function attachCar(id, params) {
     return response;
 }
 
+async function detachCar(id, params) {
+    const response = await axios.post(`${baseUrl}/${id}/cars/detach`, {cars: params});
+
+    return response;
+}
+
 export default {
     findById,
     paginate,
     create,
     update,
     delete: destroy,
-    attachCar
+    attachCar,
+    detachCar
 };

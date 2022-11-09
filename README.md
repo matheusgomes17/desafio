@@ -5,7 +5,8 @@
 Acesse a pasta 'backend' e rode o comando:
 
 ```shell
-php -S localhost:8000 -t public
+php artisan serve
+php artisan migrate
 ```
 
 <br>

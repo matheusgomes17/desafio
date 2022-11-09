@@ -23,7 +23,7 @@ class CarController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function all()
     {

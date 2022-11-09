@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Repositories\Contracts\CarRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class CarService
 {
@@ -27,6 +28,14 @@ class CarService
     public function findById($id, array $relationship = []): ?object
     {
         return $this->carRepository->findById($id, $relationship);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all(): Collection
+    {
+        return $this->carRepository->all();
     }
 
     /**

@@ -25,6 +25,18 @@ class CarController extends Controller
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
+    public function all()
+    {
+        $cars = $this->carService->all();
+
+        return response()->json([
+            'data' => $cars->pluck('name', 'id')
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
         $cars = $this->carService->paginate(20);

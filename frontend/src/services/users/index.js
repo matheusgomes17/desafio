@@ -33,10 +33,17 @@ async function destroy(id) {
     return response;
 }
 
+async function attachCar(id, params) {
+    const response = await axios.post(`${baseUrl}/${id}/cars/attach`, {cars: params});
+
+    return response;
+}
+
 export default {
     findById,
     paginate,
     create,
     update,
-    delete: destroy
+    delete: destroy,
+    attachCar
 };

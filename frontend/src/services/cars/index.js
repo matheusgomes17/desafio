@@ -9,6 +9,12 @@ async function findById(id) {
     return response.data;
 }
 
+async function all() {
+    const response = await axios.get(`${baseUrl}/all`);
+
+    return response;
+}
+
 async function paginate(page) {
     const response = await axios.get(`${baseUrl}?page=${page}`);
 
@@ -35,6 +41,7 @@ async function destroy(id) {
 
 export default {
     findById,
+    all,
     paginate,
     create,
     update,

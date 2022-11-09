@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter, withRouter } from 'next/router'
 import UserService from '../../../services/users'
+import CarService from '../../../services/cars'
 
 import styles from '../../../../styles/Users.module.css'
 import Head from '../../../components/Head'
@@ -23,6 +24,43 @@ export default function UserCars(props) {
             Router.events.off('routeChangeComplete', stopLoading);
         }
     }, [])
+
+    async function addCars(id) {
+        const response = await CarService.all()
+        const carsData = response.data
+        const cars = carsData.data
+
+        Swal.fire({
+            title: "Selecione o carro do usuário",
+            input: "select",
+            inputOptions: cars,
+            inputPlaceholder: 'Selecione um carro',
+            showCancelButton: true,
+            confirmButtonText: "Adicionar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const carAttached = await UserService.attachCar(id, [result.value])
+
+                if (carAttached.status !== 200) {
+                    Swal.fire(
+                        'Erro!',
+                        carAttached.data.message,
+                        "error"
+                    )
+                } else {
+                    Swal.fire(
+                        'Excluído!',
+                        carAttached.data.message,
+                        "success"
+                    ).then(() => {
+                        router.push(`/users/${id}/cars`)
+                    })
+                }
+            }
+        })
+    }
 
     let content = null;
 
@@ -59,6 +97,8 @@ export default function UserCars(props) {
                 <p className={styles.description}>
                     Gerencie a lista de carros do usuário <strong>{props.data.name}</strong>
                 </p>
+
+                <button onClick={(e) => addCars(props.data.id)} className={styles.btnSuccess}>Adicionar Carros</button>
 
                 <div className={styles.grid}>
                     <table className={styles.table}>

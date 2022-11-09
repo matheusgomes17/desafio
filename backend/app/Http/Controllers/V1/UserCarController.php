@@ -38,7 +38,7 @@ class UserCarController extends Controller
         }
 
         return response()->json([
-            'message' => 'Carros adicionados com sucesso',
+            'message' => 'Carro adicionado com sucesso',
         ]);
     }
 
@@ -54,12 +54,12 @@ class UserCarController extends Controller
 
         if (! $this->userService->detach($id, $data['cars'])) {
             return response()->json([
-                'message' => 'Erro ao remover os carros do usuário',
+                'message' => 'Erro ao remover o carro do usuário',
             ], 422);
         }
 
         return response()->json([
-            'message' => 'Carros adicionados com sucesso',
+            'message' => 'Carro adicionado com sucesso',
         ]);
     }
 }

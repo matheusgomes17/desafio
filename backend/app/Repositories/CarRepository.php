@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Car;
 use App\Repositories\Contracts\CarRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class CarRepository extends BaseRepository implements CarRepositoryInterface
 {
@@ -17,6 +18,14 @@ class CarRepository extends BaseRepository implements CarRepositoryInterface
     public function __construct(Car $user)
     {
         $this->entity = $user;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all(): Collection
+    {
+        return $this->entity->all();
     }
 
     /**

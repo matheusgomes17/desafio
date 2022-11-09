@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Contracts;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface CarRepositoryInterface
 {
@@ -14,6 +15,11 @@ interface CarRepositoryInterface
      * @return object|null
      */
     public function findById($id, array $relationship = []): ?object;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all(): Collection;
 
     /**
      * @param int $perPage

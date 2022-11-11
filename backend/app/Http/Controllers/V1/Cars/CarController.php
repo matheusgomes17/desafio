@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers\V1\Cars;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Cars\StoreRequest;

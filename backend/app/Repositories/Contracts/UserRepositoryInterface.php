@@ -32,9 +32,8 @@ interface UserRepositoryInterface
      * @param $id
      * @param array $data
      * @return object
-     * @throws \App\Exceptions\UserNotFound
      */
-    public function updateProfile($id, array $data): object;
+    public function update($id, array $data): object;
 
     /**
      * @param $id
@@ -46,15 +45,13 @@ interface UserRepositoryInterface
      * @param $id
      * @param array $data
      * @return null
-     * @throws \Exception
      */
-    public function attach($id, array $data);
+    public function attachCar($id, array $data);
 
     /**
      * @param $id
      * @param array $data
      * @return bool
-     * @throws \Exception
      */
-    public function detach($id, array $data): bool;
+    public function detachCar($id, array $data): bool;
 }

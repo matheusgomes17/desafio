@@ -6,71 +6,14 @@ namespace App\Repositories;
 
 use App\Models\Car;
 use App\Repositories\Contracts\CarRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 
 class CarRepository extends BaseRepository implements CarRepositoryInterface
 {
     /**
-     * @var \App\Models\Car $entity
+     * @return string
      */
-    protected $entity;
-
-    public function __construct(Car $user)
+    public function entity()
     {
-        $this->entity = $user;
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function all(): Collection
-    {
-        return $this->entity->all();
-    }
-
-    /**
-     * @param array $data
-     * @return object
-     */
-    public function create(array $data): object
-    {
-        return $this->entity->create($data);
-    }
-
-    /**
-     * @param $id
-     * @param array $data
-     * @return object
-     * @throws \Exception
-     */
-    public function update($id, array $data): object
-    {
-        $car = $this->findById($id);
-
-        if (! $car) {
-            throw new \Exception("O carro com ID {$id} não foi encontrado");
-        }
-
-        $car->update($data);
-
-        $car = $this->findById($id);
-
-        return $car;
-    }
-
-    /**
-     * @param $id
-     * @return bool
-     * @throws \Exception
-     */
-    public function delete($id): bool
-    {
-        $car = $this->findById($id);
-
-        if (! $car) {
-            throw new \Exception("O carro com ID {$id} não foi encontrado");
-        }
-
-        return $car->delete();
+        return Car::class;
     }
 }

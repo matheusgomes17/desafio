@@ -52,9 +52,11 @@ class UserCarController extends Controller
     {
         $data = $request->validated();
 
-        if (! $this->userService->detach($id, $data['cars'])) {
+        try {
+            $this->userService->detach($id, $data['cars']);
+        } catch (\Exception $exception) {
             return response()->json([
-                'message' => 'Erro ao remover o carro do usuário',
+                'message' => $exception->getMessage(),
             ], 422);
         }
 

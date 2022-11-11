@@ -51,7 +51,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if (! $user = $this->userService->findById($id)) {
+        try {
+            $user = $this->userService->findById($id);
+        } catch (\Exception $exception) {
             return response()->json([
                 'message' => 'O usuário não foi encontrado'
             ], 404);
@@ -70,7 +72,7 @@ class UserController extends Controller
         $data = $request->validated();
 
         try {
-            $user = $this->userService->updateProfile($id, $data);
+            $user = $this->userService->update($id, $data);
         } catch (\Exception $exception) {
             return response()->json([
                 'message' => $exception->getMessage()

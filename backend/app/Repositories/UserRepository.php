@@ -4,87 +4,27 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Exceptions\UserNotFound;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     /**
-     * @var \App\Models\User $entity
+     * @return string
      */
-    protected $entity;
-
-    public function __construct(User $user)
+    public function entity()
     {
-        $this->entity = $user;
-    }
-
-    /**
-     * @param array $data
-     * @return object
-     */
-    public function create(array $data): object
-    {
-        $data['password'] = $this->generateHash($data['password']);
-
-        return $this->entity->create($data);
-    }
-
-    /**
-     * @param $id
-     * @param array $data
-     * @return object
-     * @throws \App\Exceptions\UserNotFound
-     */
-    public function updateProfile($id, array $data): object
-    {
-        $user = $this->findById($id);
-
-        if (! $user) {
-            throw new UserNotFound();
-        }
-
-        $data['password'] = $this->generateHash($data['password']);
-
-        if (! $user->update($data)) {
-            throw new \Exception('Houve um erro ao atualizar o usuário');
-        }
-
-        $user = $this->findById($id);
-
-        return $user;
-    }
-
-    /**
-     * @param $id
-     * @return bool
-     * @throws \Exception
-     */
-    public function delete($id): bool
-    {
-        $user = $this->findById($id);
-
-        if (! $user) {
-            throw new UserNotFound();
-        }
-
-        return $user->delete();
+        return User::class;
     }
 
     /**
      * @param $id
      * @param array $data
      * @return null
-     * @throws \Exception
      */
-    public function attach($id, array $data)
+    public function attachCar($id, array $data)
     {
         $user = $this->findById($id, ['cars']);
-
-        if (! $user) {
-            throw new UserNotFound();
-        }
 
         return $user->cars()->attach($data);
     }
@@ -93,25 +33,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      * @param $id
      * @param array $data
      * @return bool
-     * @throws \Exception
      */
-    public function detach($id, array $data): bool
+    public function detachCar($id, array $data): bool
     {
         $user = $this->findById($id, ['cars']);
 
-        if (! $user) {
-            throw new UserNotFound();
-        }
-
         return (bool) $user->cars()->detach($data);
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    private function generateHash($value): string
-    {
-        return app('hash')->make($value);
     }
 }

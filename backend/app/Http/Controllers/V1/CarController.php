@@ -63,7 +63,9 @@ class CarController extends Controller
      */
     public function show($id)
     {
-        if (! $car = $this->carService->findById($id)) {
+        try {
+            $car = $this->carService->findById($id);
+        } catch (\Exception $exception) {
             return response()->json([
                 'message' => 'O carro não foi encontrado'
             ], 404);
